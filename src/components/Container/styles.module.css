@@ -1,0 +1,3 @@
+.containerStyle {
+  @apply container mx-auto md:max-w-4xl md:bg-gray-100 h-screen flex flex-col justify-center items-center space-y-3;
+}

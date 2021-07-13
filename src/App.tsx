@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import ButtonGroub from './components/ButtonGroub';
+import Container from './components/Container';
+import usePrevious from './Hooks/usePrevious';
+import { RootState, StateProps } from './types';
 
-function App() {
+type Props = StateProps;
+
+const App = (props: Props) => {
+  const { plusMinus } = props;
+  const previosCount = usePrevious(plusMinus);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Container>
+      <h1>{plusMinus}</h1>
 
-export default App;
+      <ButtonGroub />
+      {previosCount !== undefined && (
+        <div className="flex flex-col space-y-3 items-center pt-8">
+          <h3>Previous Count</h3>
+          <h1>{previosCount}</h1>
+        </div>
+      )}
+    </Container>
+  );
+};
+
+const mapStateToProps = (state: RootState) => ({
+  plusMinus: state.plusMinusReducer,
+});
+
+export default connect(mapStateToProps)(App);
